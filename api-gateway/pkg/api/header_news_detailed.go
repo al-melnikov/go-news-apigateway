@@ -33,11 +33,7 @@ func getNewsDetailed(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//var wg sync.WaitGroup
-	//wg.Add(2)
-
 	newsCh := make(chan NewsByIDResponse)
-	//newsResponse := &NewsByIDResponse{}
 
 	// Запрос к сервису новостой
 	go func() {
@@ -45,7 +41,6 @@ func getNewsDetailed(w http.ResponseWriter, r *http.Request) {
 			ID: newsId,
 		}
 
-		//res, err := http.Get(requestURL)
 		b, err := json.Marshal(req)
 		if err != nil {
 			log.Printf("error marshalling json: %v\n", err)
@@ -75,10 +70,7 @@ func getNewsDetailed(w http.ResponseWriter, r *http.Request) {
 		}
 
 		newsCh <- newsResponse
-		//wg.Done()
-		//wg.Done()
 	}()
-	//wg.Wait()
 
 	commentsCh := make(chan CommentsByIDResponse)
 
@@ -88,7 +80,6 @@ func getNewsDetailed(w http.ResponseWriter, r *http.Request) {
 			ID: newsId,
 		}
 
-		//res, err := http.Get(requestURL)
 		b, err := json.Marshal(req)
 		if err != nil {
 			log.Printf("error marshalling json: %v\n", err)
@@ -118,14 +109,13 @@ func getNewsDetailed(w http.ResponseWriter, r *http.Request) {
 		}
 
 		commentsCh <- commentsResponse
-		//wg.Done()
-		//wg.Done()
 	}()
 
 	commentsResponse := <-commentsCh
 
 	newsResponse := <-newsCh
 
+	// подготовка ответа на запрос
 	res := &NewsDetailedResponse{
 		Success: true,
 		Post: models.Post{

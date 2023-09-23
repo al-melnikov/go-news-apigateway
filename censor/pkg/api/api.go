@@ -21,9 +21,6 @@ func StartAPI() *chi.Mux {
 
 	r.Route("/censor", func(r chi.Router) {
 		r.Put("/", censorComment)
-		//r.Post("/", createComment)
-		//r.Get("/id", getPostByID)
-		//r.Get("/reg", getPostByRegExp)
 	})
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {

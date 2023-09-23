@@ -69,8 +69,6 @@ func getNewsTreeDetailed(w http.ResponseWriter, r *http.Request) {
 		}
 
 		newsCh <- newsResponse
-		//wg.Done()
-		//wg.Done()
 	}()
 
 	commentsCh := make(chan CommentsTreeByIDResponse)
@@ -80,7 +78,6 @@ func getNewsTreeDetailed(w http.ResponseWriter, r *http.Request) {
 			ID: newsId,
 		}
 
-		//res, err := http.Get(requestURL)
 		b, err := json.Marshal(req)
 		if err != nil {
 			log.Printf("error marshalling json: %v\n", err)
@@ -110,8 +107,6 @@ func getNewsTreeDetailed(w http.ResponseWriter, r *http.Request) {
 		}
 
 		commentsCh <- commentsResponse
-		//wg.Done()
-		//wg.Done()
 	}()
 
 	commentsResponse := <-commentsCh

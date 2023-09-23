@@ -16,6 +16,9 @@ const newsRegURL = "http://localhost:8082/news/reg"
 const censorURL = "http://localhost:8083/censor"
 const commentTreeURL = "http://localhost:8081/comments/tree"
 
+// Заголовок с которым передается сквозной ID запроса
+const requestIDHeader = "X-Request-Id"
+
 type key string
 
 //const censorURL = "http://localhost:8083/censor"
@@ -25,18 +28,16 @@ func StartAPI() *chi.Mux {
 	r := chi.NewRouter()
 	//add middleware
 	//in this case we will store our DB to use it later
-	r.Use(CtxID)
+	r.Use(ctxID)
 	r.Use(middleware.RequestID)
 	r.Use(middleware.Logger)
-	r.Use(SendRequestID)
+	r.Use(sendRequestID)
 
 	r.Route("/", func(r chi.Router) {
 		r.Get("/news/{news_id}", getNewsDetailed)
 		r.Get("/news", getNews)
 		r.Get("/news/tree/{news_id}", getNewsTreeDetailed)
 		r.Post("/comments", addComment)
-		//r.Get("/id", getPostByID)
-		//r.Get("/reg", getPostsByRegExp)
 	})
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
@@ -46,8 +47,7 @@ func StartAPI() *chi.Mux {
 	return r
 }
 
-func CtxID(next http.Handler) http.Handler {
-	//type key string
+func ctxID(next http.Handler) http.Handler {
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		requestIDStr := r.URL.Query().Get("request_id")
@@ -55,19 +55,16 @@ func CtxID(next http.Handler) http.Handler {
 		if err != nil {
 			requestID = uuid.New()
 		}
-		//requestIDStr = string(requestID)
+
 		params := url.Values{}
 		params.Add("request_id", requestID.String())
 		ctx := context.WithValue(r.Context(), key("request_id"), requestID)
-		//return middleware.WithValue("request_id", requestID)
 
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
 
-const requestIDHeader = "X-Request-Id"
-
-func SendRequestID(next http.Handler) http.Handler {
+func sendRequestID(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 		if w.Header().Get(requestIDHeader) == "" {

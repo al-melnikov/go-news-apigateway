@@ -15,6 +15,7 @@ type DB struct {
 	db *pgxpool.Pool
 }
 
+// Возвращает новый экземпляр базы данных
 func New(constr string) (*DB, error) {
 	db, err := pgxpool.New(context.Background(), constr)
 	if err != nil {
@@ -26,6 +27,7 @@ func New(constr string) (*DB, error) {
 	return &s, nil
 }
 
+// Возвращает новость по ее ID и ошибку
 func (db *DB) GetNewsByID(newsID uuid.UUID) (models.Post, error) {
 	query := `SELECT id, title, content, created_at::timestamp, link FROM posts
 				WHERE id = $1;`
@@ -44,6 +46,9 @@ func (db *DB) GetNewsByID(newsID uuid.UUID) (models.Post, error) {
 	return post, nil
 }
 
+// Ищет статьи по регулярному выражению и возвращает массив из них,
+// число страниц, текущую страницу и ошибку. Текущую страницу принимет как аргумент
+// Если для нее нет постов, то возвращает для 1 страницы
 func (db *DB) GetNewsByRegExp(regExp string, currentPage int) (
 	posts []models.Post,
 	pagesNum int,

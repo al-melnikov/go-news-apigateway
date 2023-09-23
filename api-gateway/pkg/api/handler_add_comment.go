@@ -80,7 +80,6 @@ func addComment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//err = json.NewEncoder(w).Encode(req)
 	b, err = json.Marshal(req)
 	if err != nil {
 		res := &BadResponse{

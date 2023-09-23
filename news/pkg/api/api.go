@@ -104,7 +104,6 @@ func getPostsByRegExp(w http.ResponseWriter, r *http.Request) {
 	req := &GetPostsByRegExpRequest{}
 	err := json.NewDecoder(r.Body).Decode(req)
 
-	//fmt.Println(req.RequestID)
 	if err != nil {
 		res := &BadResponse{
 			Success:   false,

@@ -39,11 +39,6 @@ func StartAPI(db *db.DB) *chi.Mux {
 	return r
 }
 
-/*
-	func getComments(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("comments"))
-	}
-*/
 func createComment(w http.ResponseWriter, r *http.Request) {
 
 	req := &CreateCommentRequest{}

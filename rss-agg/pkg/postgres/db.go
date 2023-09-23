@@ -11,6 +11,7 @@ type DB struct {
 	db *pgxpool.Pool
 }
 
+// Возвращает экземпляр базы данных
 func New(constr string) (*DB, error) {
 	db, err := pgxpool.New(context.Background(), constr)
 	if err != nil {
@@ -22,6 +23,7 @@ func New(constr string) (*DB, error) {
 	return &s, nil
 }
 
+// Добавляет в базу данных пост
 func (db *DB) AddPost(p models.Post) error {
 	query := `INSERT INTO posts (title, content, link, created_at) 
 				VALUES ($1, $2, $3, $4);`

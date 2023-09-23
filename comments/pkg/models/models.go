@@ -21,11 +21,3 @@ type CommentTree struct {
 	Content          string        `json:"content"`
 	ThreadedComments []CommentTree `json:"thread"`
 }
-
-/*
-id UUID PRIMARY KEY,
-    news_id UUID REFERENCES posts(id) ON DELETE CASCADE,
-    parent_id UUID DEFAULT NULL,
-    created_at TIMESTAMP NOT NULL,
-    content TEXT NOT NULL
-*/
