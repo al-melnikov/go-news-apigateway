@@ -10,6 +10,10 @@ go-news-apigateway содержит 5 компонентов:
 4. comments
 5. censor
 
+
+![api-gateway](https://github.com/al-melnikov/go-news-apigateway/assets/5961306/874ec6dc-ee14-458f-88bc-87a076116872)
+
+
 ## rss-agg
 ***rss-agg*** занимается скраппингом rss лент, указанных в ***config.json***, и их записью в базу данных
 
