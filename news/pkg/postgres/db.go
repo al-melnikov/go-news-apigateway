@@ -2,7 +2,6 @@ package database
 
 import (
 	"context"
-	"fmt"
 	"news/pkg/models"
 
 	"github.com/google/uuid"
@@ -62,19 +61,14 @@ func (db *DB) GetNewsByRegExp(regExp string, currentPage int) (
 	var itemsNum int
 
 	err = db.db.QueryRow(context.Background(), queryCount, regExp).Scan(&itemsNum)
-	//fmt.Println(itemsNum)
 	if err != nil {
 		return nil, 0, 0, err
 	}
-
-	fmt.Println(currentPage)
 
 	// Вернет результаты для 1 страницы если на запрашиваемой ничего нет
 	if itemsNum <= (currentPage-1)*ItemsOnPage+1 {
 		currentPage = 1
 	}
-
-	fmt.Println(currentPage)
 
 	if itemsNum <= 0 {
 		currentPage = 0

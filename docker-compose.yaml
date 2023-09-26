@@ -1,0 +1,37 @@
+version: '3.3'
+
+services:
+  news:
+    build: news/
+  #  ports:
+   #   - "9999:8082"
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
+#      - "database:localhost"
+    network_mode: "host"
+
+  comments:
+    build: comments/
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
+#      - "database:localhost"
+    network_mode: "host"
+
+  api-gateway:
+    build: api-gateway/
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
+#      - "database:localhost"
+    network_mode: "host"
+
+  censor:
+    build: censor/
+    ports:
+      - "${CENSOR_PORT}:${CENSOR_PORT}"
+
+  rss-agg:
+    build: rss-agg/
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
+#      - "database:localhost"
+    network_mode: "host"

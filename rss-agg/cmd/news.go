@@ -8,9 +8,9 @@ import (
 	db "rss-agg/pkg/postgres"
 	"rss-agg/pkg/rss"
 	"time"
-)
 
-const db_url string = "postgres://postgres:password@localhost:5432/apigateway?sslmode=disable"
+	"github.com/joho/godotenv"
+)
 
 // конфигурация приложения
 type config struct {
@@ -19,6 +19,15 @@ type config struct {
 }
 
 func main() {
+	log.Print("server has started")
+
+	godotenv.Load()
+
+	//get the port from the environment variable
+	dbString := os.Getenv("DB_URL")
+	if dbString == "" {
+		log.Fatal("PORT is not found in the environment")
+	}
 
 	// чтение и раскодирование файла конфигурации
 	b, err := os.ReadFile("./config.json")
@@ -32,7 +41,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	db, err := db.New(db_url)
+	db, err := db.New(dbString)
 	if err != nil {
 		log.Fatal(err)
 	}

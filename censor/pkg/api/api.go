@@ -3,7 +3,6 @@ package api
 import (
 	"censor/pkg/censor"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -49,7 +48,6 @@ func censorComment(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	fmt.Println(req.Content)
 
 	isCensored := censor.IsCensored(req.Content)
 
