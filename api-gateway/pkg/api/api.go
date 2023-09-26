@@ -21,8 +21,6 @@ const requestIDHeader = "X-Request-Id"
 
 type key string
 
-//const censorURL = "http://localhost:8083/censor"
-
 func StartAPI() *chi.Mux {
 	//get the router
 	r := chi.NewRouter()

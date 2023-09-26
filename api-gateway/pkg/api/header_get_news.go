@@ -51,19 +51,7 @@ func getNews(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	res := newsResponse
-	/*
-		res := &NewsRegExpResponse{
-			Success: true,
-			Post: models.Post{
-				ID:        newsResponse.Post.ID,
-				Title:     newsResponse.Post.Title,
-				Content:   newsResponse.Post.Content,
-				CreatedAt: newsResponse.Post.CreatedAt,
-				Link:      newsResponse.Post.Link,
-			},
-			Comments: commentsResponse.Comments,
-		}
-	*/
+
 	err = json.NewEncoder(w).Encode(res)
 
 	if err != nil {

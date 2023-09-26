@@ -39,7 +39,6 @@ func getNewsTreeDetailed(w http.ResponseWriter, r *http.Request) {
 			ID: newsId,
 		}
 
-		//res, err := http.Get(requestURL)
 		b, err := json.Marshal(req)
 		if err != nil {
 			log.Printf("error marshalling json: %v\n", err)

@@ -72,15 +72,10 @@ func (db *DB) GetNewsByRegExp(regExp string, currentPage int) (
 
 	if itemsNum <= 0 {
 		currentPage = 0
-		//return nil, 0, 0, 0, errors.New("nothing found")
 	}
 
 	query := `SELECT id, title, content, created_at::timestamp, link FROM posts
 				WHERE title ~*$1 ORDER BY created_at DESC LIMIT $2 OFFSET $3;`
-
-	//var posts []models.Post
-
-	//var currentPage int = 1
 
 	rows, err := db.db.Query(context.Background(), query, regExp, ItemsOnPage, (currentPage-1)*ItemsOnPage)
 	if err != nil {
